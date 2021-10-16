@@ -7,6 +7,6 @@ import express from 'express';
 
 const router = express.Router();
 
-router.use([currentUserRouter, signUpRouter]);
+router.use([currentUserRouter, signUpRouter, signOutRouter, signInRouter]);
 
 export default router;
