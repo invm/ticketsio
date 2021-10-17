@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Password } from '../utils/password';
+import { PasswordManager } from '../utils/password-manager';
 
 // required to create a new user
 interface IUser {
@@ -20,21 +20,33 @@ interface IUserDocument extends mongoose.Document {
 	updatedAt: Date;
 }
 
-const userSchema = new mongoose.Schema({
-	email: {
-		type: String,
-		required: true,
-		unique: true
+const userSchema = new mongoose.Schema(
+	{
+		email: {
+			type: String,
+			required: true,
+			unique: true
+		},
+		password: {
+			type: String,
+			required: true
+		}
 	},
-	password: {
-		type: String,
-		required: true
+	{
+		toJSON: {
+			transform(_, ret) {
+				delete ret.password;
+				delete ret.__v;
+				ret.id = ret._id;
+				delete ret._id;
+			}
+		}
 	}
-});
+);
 
 userSchema.pre('save', async function (done) {
 	if (this.isModified('password')) {
-		const hashed = await Password.toHash(this.get('password'));
+		const hashed = await PasswordManager.toHash(this.get('password'));
 		this.set('password', hashed);
 	}
 	done();

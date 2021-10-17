@@ -1,13 +1,26 @@
 import express from 'express';
 import 'express-async-errors';
-import { errorHandler } from './middleware/error-handler';
+import { errorHandler } from './middleware';
 import router from './routes';
 import mongoose from 'mongoose';
+import cookieSession from 'cookie-session';
 import { DatabaseConnectionError, NotFoundError } from './errors';
+import assert from 'assert';
+
+assert(process.env.JWT_KEY, 'Missing env vars');
 
 const app = express();
 
+app.set('trust proxy', true);
+
 app.use(express.json());
+
+app.use(
+	cookieSession({
+		secure: true,
+		signed: false
+	})
+);
 
 app.use('/api/users', router);
 
