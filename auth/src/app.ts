@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(
 	cookieSession({
-		secure: process.env.NODE_ENV !== 'test',
+		// secure: process.env.NODE_ENV !== 'test',
 		signed: false
 	})
 );

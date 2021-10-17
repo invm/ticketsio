@@ -31,7 +31,7 @@ router.post(
 		}
 
 		// generate jwt and store it on the request
-		const userJwt = jwt.sign({ _id: existingUser._id, email: existingUser.email }, process.env.JWT_KEY!);
+		const userJwt = jwt.sign({ id: existingUser.id, email: existingUser.email }, process.env.JWT_KEY!);
 
 		req.session = {
 			jwt: userJwt
