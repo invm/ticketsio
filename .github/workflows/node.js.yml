@@ -21,7 +21,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
@@ -32,3 +31,9 @@ jobs:
       working-directory: ./auth
     - run: npm test
       working-directory: ./auth
+    - run: npm ci
+      working-directory: ./tickets
+    - run: npm run build --if-present
+      working-directory: ./tickets
+    - run: npm test
+      working-directory: ./tickets
