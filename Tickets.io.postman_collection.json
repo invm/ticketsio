@@ -1,0 +1,672 @@
+{
+	"info": {
+		"_postman_id": "15b273c5-b977-4871-b43e-c77bd196e00d",
+		"name": "Tickets.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test2@test.com\",\n    \"password\": \"test1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API}}/users/signup",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sign up",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"test2@test.com\",\n    \"password\": \"test1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/users/signup",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"users",
+										"signup"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:52:24 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "145"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"91-R4xR0sut8NYPOFq064B9KKYk3Gk\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "express:sess=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJall4Tm1SbFl6azROR1ZsTjJObE9XRm1ZamRtTURaa015SXNJbVZ0WVdsc0lqb2lkR1Z6ZERKQWRHVnpkQzVqYjIwaUxDSnBZWFFpT2pFMk16UTFPVE01TkRSOS5pUWI4RTBzRDJpSFNxc2FibnpvTkFRZ1dxVnRGR3BQMHVDN3drUXlWalBJIn0=; path=/; secure; httponly"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"email\": \"test2@test.com\",\n        \"createdAt\": \"2021-10-18T21:52:24.830Z\",\n        \"updatedAt\": \"2021-10-18T21:52:24.830Z\",\n        \"id\": \"616dec984ee7ce9afb7f06d3\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Sign in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test2@test.com\",\n    \"password\": \"test1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API}}/users/signin",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"users",
+								"signin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sign in",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"test2@test.com\",\n    \"password\": \"test1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/users/signin",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"users",
+										"signin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:55:12 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "145"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"91-R4xR0sut8NYPOFq064B9KKYk3Gk\""
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "express:sess=eyJqd3QiOiJleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJall4Tm1SbFl6azROR1ZsTjJObE9XRm1ZamRtTURaa015SXNJbVZ0WVdsc0lqb2lkR1Z6ZERKQWRHVnpkQzVqYjIwaUxDSnBZWFFpT2pFMk16UTFPVFF4TVRKOS5acTFOSmhBNDVQMDRxWGhvU3dRRUpLS3o0ckRQN0xicUpKNlpUa0dmZ0VrIn0=; path=/; secure; httponly"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"email\": \"test2@test.com\",\n        \"createdAt\": \"2021-10-18T21:52:24.830Z\",\n        \"updatedAt\": \"2021-10-18T21:52:24.830Z\",\n        \"id\": \"616dec984ee7ce9afb7f06d3\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Current user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API}}/users/currentuser",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"users",
+								"currentuser"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Current user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API}}/users/currentuser",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"users",
+										"currentuser"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:55:18 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "91"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5b-AiVrZevb0FjpT/j9t2kp9QixoyM\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"currentUser\": {\n        \"id\": \"616dec984ee7ce9afb7f06d3\",\n        \"email\": \"test2@test.com\",\n        \"iat\": 1634594112\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Signout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test1@test.com\",\n    \"password\": \"test1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API}}/users/signin",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"users",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "Get single",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API}}/tickets/:id",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"tickets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "616dec9f4983b734885748ef"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get single",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API}}/tickets/:id",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"tickets",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "616dec9f4983b734885748ef"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:54:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "189"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"bd-9ytX8KdfyLYk8qYTGOCTh5VtuB0\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"userId\": \"616dec984ee7ce9afb7f06d3\",\n        \"title\": \"another one\",\n        \"price\": 20,\n        \"createdAt\": \"2021-10-18T21:52:31.961Z\",\n        \"updatedAt\": \"2021-10-18T21:54:03.216Z\",\n        \"id\": \"616dec9f4983b734885748ef\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API}}/tickets?offset=0&limit=10",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"tickets"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API}}/tickets?offset=0&limit=10",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"tickets"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:56:37 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "368"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"170-2yQPafGCPBL0RQEytXYBQFhkupQ\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"userId\": \"616dec984ee7ce9afb7f06d3\",\n            \"title\": \"another one\",\n            \"price\": 20,\n            \"createdAt\": \"2021-10-18T21:52:31.961Z\",\n            \"updatedAt\": \"2021-10-18T21:54:03.216Z\",\n            \"id\": \"616dec9f4983b734885748ef\"\n        },\n        {\n            \"userId\": \"616dec984ee7ce9afb7f06d3\",\n            \"title\": \"concert\",\n            \"price\": 10,\n            \"createdAt\": \"2021-10-18T21:56:33.873Z\",\n            \"updatedAt\": \"2021-10-18T21:56:33.873Z\",\n            \"id\": \"616ded9148b6d4b9c649429d\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"concert\",\n    \"price\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API}}/tickets/",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"tickets",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\":\"concert\",\n    \"price\":10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/tickets/",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"tickets",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:52:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "185"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b9-aup9o9CrZHZzzHY2DYKRyN4cklI\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"userId\": \"616dec984ee7ce9afb7f06d3\",\n        \"title\": \"concert\",\n        \"price\": 10,\n        \"createdAt\": \"2021-10-18T21:52:31.961Z\",\n        \"updatedAt\": \"2021-10-18T21:52:31.961Z\",\n        \"id\": \"616dec9f4983b734885748ef\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"another one\",\n    \"price\": 20\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API}}/tickets/:id",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"tickets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "616dec9f4983b734885748ef"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"another one\",\n    \"price\": 20\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/tickets/:id",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"tickets",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "616dec9f4983b734885748ef"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 18 Oct 2021 21:54:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "189"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"bd-9ytX8KdfyLYk8qYTGOCTh5VtuB0\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"userId\": \"616dec984ee7ce9afb7f06d3\",\n        \"title\": \"another one\",\n        \"price\": 20,\n        \"createdAt\": \"2021-10-18T21:52:31.961Z\",\n        \"updatedAt\": \"2021-10-18T21:54:03.216Z\",\n        \"id\": \"616dec9f4983b734885748ef\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API",
+			"value": "https://tickets.io/api"
+		}
+	]
+}
