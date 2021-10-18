@@ -14,7 +14,7 @@ describe('create new ticket route', () => {
 	});
 
 	it('returns status other than 401 if the user is signed in', async () => {
-		let cookie = signIn();
+		let cookie = signIn('1');
 
 		let res = await request(app).post('/api/tickets').set('Cookie', cookie).send();
 
@@ -22,13 +22,13 @@ describe('create new ticket route', () => {
 	});
 
 	it('responds with an error due to invalid title', async () => {
-		let cookie = signIn();
+		let cookie = signIn('1');
 
 		await request(app).post('/api/tickets').set('Cookie', cookie).send({ title: '' }).expect(400);
 	});
 
 	it('responds with an error due to invalid price', async () => {
-		let cookie = signIn();
+		let cookie = signIn('1');
 
 		await request(app).post('/api/tickets').set('Cookie', cookie).send({ price: 0 }).expect(400);
 	});
@@ -38,7 +38,7 @@ describe('create new ticket route', () => {
 		let tickets = await Ticket.find({});
 
 		expect(tickets.length).toEqual(0);
-		let cookie = signIn();
+		let cookie = signIn('1');
 
 		const title = 'title';
 		const price = 20;
