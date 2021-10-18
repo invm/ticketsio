@@ -1,8 +1,8 @@
 import express from 'express';
 import 'express-async-errors';
-import { NotFoundError, errorHandler } from '@invmtickets/common';
-import router from './routes';
+import { NotFoundError, errorHandler, currentUser } from '@invmtickets/common';
 import cookieSession from 'cookie-session';
+import router from './routes';
 
 const app = express();
 
@@ -12,7 +12,9 @@ app.use(express.json());
 
 app.use(cookieSession({ signed: false }));
 
-app.use('/api/users', router);
+app.use(currentUser);
+
+app.use('/api/tickets', router);
 
 app.all('*', async () => {
 	throw new NotFoundError();

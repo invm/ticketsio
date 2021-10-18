@@ -8,7 +8,7 @@ interface IUser {
 }
 
 // user model properties
-interface IUserModal extends mongoose.Model<IUserDocument> {
+interface IUserModel extends mongoose.Model<IUserDocument> {
 	build(user: IUser): IUserDocument;
 }
 
@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema(
 		}
 	},
 	{
+		timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 		toJSON: {
 			transform(_, ret) {
 				delete ret.password;
@@ -56,6 +57,6 @@ userSchema.statics.build = (user: IUser) => {
 	return new User(user);
 };
 
-const User = mongoose.model<IUserDocument, IUserModal>('User', userSchema);
+const User = mongoose.model<IUserDocument, IUserModel>('User', userSchema);
 
 export { User };
