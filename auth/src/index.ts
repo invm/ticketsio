@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { app } from './app';
-import { DatabaseConnectionError } from './errors';
+import { DatabaseConnectionError } from '@invmtickets/common';
 
 const start = async () => {
 	if (!process.env.JWT_KEY) {

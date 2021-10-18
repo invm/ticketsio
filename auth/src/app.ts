@@ -1,9 +1,8 @@
 import express from 'express';
 import 'express-async-errors';
-import { errorHandler } from './middleware';
+import { NotFoundError, errorHandler } from '@invmtickets/common';
 import router from './routes';
 import cookieSession from 'cookie-session';
-import { NotFoundError } from './errors';
 
 const app = express();
 
