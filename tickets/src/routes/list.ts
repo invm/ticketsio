@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { validateRequest } from '@invmtickets/common';
+import { BadRequestError, validateRequest } from '@invmtickets/common';
 import { query } from 'express-validator';
 import { Ticket } from '../models/ticket';
 
@@ -20,9 +20,12 @@ router.get(
 	async (req: Request, res: Response) => {
 		const { offset, limit } = req.query;
 
+		if (typeof offset !== 'number' || typeof limit !== 'number')
+			throw new BadRequestError('Invalid offset or limit');
+
 		let tickets = await Ticket.find({})
-			.skip(+offset! * +limit!)
-			.limit(+limit!);
+			.skip(offset * limit)
+			.limit(limit);
 
 		res.status(200).send({ data: tickets });
 	}
