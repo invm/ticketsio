@@ -1,0 +1,23 @@
+{
+  "name": "rmq-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "listen": "ts-node-dev --rs --notify false src/listener.ts",
+    "publish": "ts-node-dev --rs --notify false src/publisher.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^16.11.1",
+    "amqplib": "^0.8.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.8.2",
+    "@types/rascal": "^10.0.4"
+  }
+}

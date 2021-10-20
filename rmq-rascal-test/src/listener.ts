@@ -17,6 +17,8 @@ import config from './config/rascal.json';
 				// }, 1000);
 			})
 			.on('error', console.error);
+		process.on('SIGINT', () => broker.shutdown());
+		process.on('SIGTERM', () => broker.shutdown());
 	} catch (err) {
 		console.error(err);
 	}

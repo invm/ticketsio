@@ -7,6 +7,12 @@ const client = nats.connect('ticketsio', '123', {
 });
 
 client.on('connect', () => {
+	
+	client.on('close', () => {
+		console.log('Nats connection closed');
+		process.exit();
+	});
+	
 	console.log('listener connected to nats');
 
 	const options = client.subscriptionOptions().setManualAckMode(true);
@@ -14,7 +20,10 @@ client.on('connect', () => {
 
 	subscription.on('message', (msg: Message) => {
 		console.log(JSON.parse(msg.getData() as string));
-		
+
 		msg.ack();
 	});
 });
+
+process.on('SIGINT', () => client.close());
+process.on('SIGTERM', () => client.close());
