@@ -7,18 +7,25 @@ const queue = 'ticket-created-order-queue';
 let connection: amqp.Connection;
 let channel: amqp.Channel;
 
+console.clear();
+
 const setConnection = async () => {
 	try {
 		connection = await amqp.connect(connectionUrl);
 		channel = await connection.createChannel();
 
-		await channel.assertExchange(exchange, 'fanout', { durable: true });
+		await channel.assertExchange(exchange, 'fanout', {
+			durable: true,
+			arguments: {
+				'x-message-ttl': 60000
+			}
+		});
 
 		await channel.assertQueue(queue);
 
 		channel.consume(queue, (msg) => {
 			console.log(msg?.fields.deliveryTag, msg?.content.toString() && JSON.parse(msg?.content.toString()));
-			msg && channel.ack(msg);
+			// msg && channel.ack(msg);
 		});
 	} catch (error) {
 		console.error(error);
