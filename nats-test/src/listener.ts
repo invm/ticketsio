@@ -1,28 +1,21 @@
-import nats, { Message } from 'node-nats-streaming';
+import nats from 'node-nats-streaming';
+import { randomBytes } from 'crypto';
+import { TicketCreatedListener } from './events/ticket-created-listener';
 
 console.clear();
 
-const client = nats.connect('ticketsio', '123', {
+const client = nats.connect('ticketsio', randomBytes(4).toString('hex'), {
 	url: 'http://localhost:4222'
 });
 
 client.on('connect', () => {
-	
+	console.log('Nats connection established');
 	client.on('close', () => {
 		console.log('Nats connection closed');
 		process.exit();
 	});
-	
-	console.log('listener connected to nats');
 
-	const options = client.subscriptionOptions().setManualAckMode(true);
-	const subscription = client.subscribe('ticket:created', 'order-service-queue', options);
-
-	subscription.on('message', (msg: Message) => {
-		console.log(JSON.parse(msg.getData() as string));
-
-		msg.ack();
-	});
+	new TicketCreatedListener(client).listen();
 });
 
 process.on('SIGINT', () => client.close());
