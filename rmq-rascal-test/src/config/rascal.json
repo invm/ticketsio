@@ -1,0 +1,55 @@
+{
+	"vhosts": {
+		"test": {
+			"connection": {
+				"url": "amqp://localhost:5672"
+			},
+			"exchanges": {
+				"test_exchange": {
+					"assert": true,
+					"type": "direct"
+				}
+			},
+			"queues": ["test_queue"],
+			"bindings": {
+				"b1": {
+					"source": "test_exchange",
+					"destination": "test_queue",
+					"destinationType": "queue",
+					"bindingKey": "test_route"
+				}
+			},
+			"publications": {
+				"demo_publication": {
+					"vhost": "test",
+					"exchange": "test_exchange",
+					"routingKey": "test_route",
+					"confirm": true,
+					"timeout": 2000,
+					"options": {
+						"persistent": true,
+						"mandatory": true
+					}
+				}
+			},
+			"subscriptions": {
+				"demo_subscription": {
+					"queue": "test_queue",
+					"prefetch": 10,
+					"retry": {
+						"min": 1000,
+						"max": 60000,
+						"factor": 2,
+						"strategy": "exponential"
+					},
+					"redeliveries": {
+						"limit": 100,
+						"timeout": 1000,
+						"counter": "stub"
+					},
+					"deferCloseChannel": 60000
+				}
+			}
+		}
+	}
+}
