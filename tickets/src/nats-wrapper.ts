@@ -10,9 +10,11 @@ class NatsWrapper {
 
     return this._client;
   }
-  
   connect(clustedId: string, clientId: string, url: string) {
-    this._client = nats.connect(clustedId, clientId, { url });
+    this._client = nats.connect(clustedId, clientId, {
+      url,
+      waitOnFirstConnect: true,
+    });
 
     return new Promise<void>((resolve, reject) => {
       this.client.on("connect", () => {
@@ -25,7 +27,6 @@ class NatsWrapper {
       });
     });
   }
-  
 }
 
 export const natsWrapper = new NatsWrapper();
