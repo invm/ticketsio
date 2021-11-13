@@ -32,9 +32,9 @@ const orderSchema = new mongoose.Schema(
 			required: true,
 		},
 		ticket: {
-			type: mongoose.Schema.Types.Date,
+			type: mongoose.Schema.Types.ObjectId,
 			required: true,
-			ref: 'Tickets',
+			ref: 'Ticket',
 		},
 		status: {
 			type: String,
@@ -64,4 +64,4 @@ orderSchema.statics.build = (order: IOrder) => {
 
 const Order = mongoose.model<IOrderDocument, IOrderModel>('Order', orderSchema);
 
-export { Order };
+export { Order, OrderStatus };

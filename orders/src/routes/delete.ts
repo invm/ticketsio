@@ -1,15 +1,17 @@
 import express, { Request, Response } from 'express';
 import {
+	NotAuthorizedError,
 	NotFoundError,
+	OrderStatus,
 	requireAuth,
 	validateRequest,
 } from '@invmtickets/common';
 import { param } from 'express-validator';
-import { Ticket } from '../models/ticket';
+import { Order } from '../models/order';
 
 const router = express.Router();
 
-router.patch(
+router.delete(
 	'/:id',
 	requireAuth,
 	[
@@ -23,11 +25,16 @@ router.patch(
 	async (req: Request, res: Response) => {
 		const { id } = req.params;
 
-		let ticket = await Ticket.findOne({ _id: id });
+		let order = await Order.findOne({ _id: id });
 
-		if (!ticket) throw new NotFoundError();
+		if (!order) throw new NotFoundError();
+		if (order.userId !== req.currentUser!.id) {
+			throw new NotAuthorizedError();
+		}
+		order.status = OrderStatus.Cancelled;
+		await order.save();
 
-		res.status(200).send({ data: ticket });
+		res.status(204).send();
 	}
 );
 

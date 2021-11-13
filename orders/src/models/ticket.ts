@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Order, OrderStatus } from './order';
 
 // required to create a new ticket
 interface ITicket {
@@ -17,18 +18,19 @@ export interface ITicketDocument extends mongoose.Document {
 	price: number;
 	createdAt: Date;
 	updatedAt: Date;
+	isReserved(): Promise<boolean>;
 }
 
 const ticketSchema = new mongoose.Schema(
 	{
 		title: {
 			type: String,
-			required: true
+			required: true,
 		},
 		price: {
 			type: Number,
-			required: true
-		}
+			required: true,
+		},
 	},
 	{
 		timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
@@ -37,8 +39,8 @@ const ticketSchema = new mongoose.Schema(
 				delete ret.__v;
 				ret.id = ret._id;
 				delete ret._id;
-			}
-		}
+			},
+		},
 	}
 );
 
@@ -46,6 +48,24 @@ ticketSchema.statics.build = (ticket: ITicket) => {
 	return new Ticket(ticket);
 };
 
-const Ticket = mongoose.model<ITicketDocument, ITicketModel>('Ticket', ticketSchema);
+ticketSchema.methods.isReserved = async function () {
+	const existingOrder = await Order.findOne({
+		ticket: this,
+		status: {
+			$in: [
+				OrderStatus.Created,
+				OrderStatus.AwaitingPayment,
+				OrderStatus.Complete,
+			],
+		},
+	});
+
+	return !!existingOrder;
+};
+
+const Ticket = mongoose.model<ITicketDocument, ITicketModel>(
+	'Ticket',
+	ticketSchema
+);
 
 export { Ticket };
