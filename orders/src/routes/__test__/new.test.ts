@@ -75,5 +75,19 @@ describe('create new order route', () => {
 			.expect(201);
 	});
 
-	it.todo('publishes an event');
+	it('publishes an event', async () => {
+		let ticket = Ticket.build({
+			title: 'concert',
+			price: 20,
+		});
+		await ticket.save();
+
+		await request(app)
+			.post('/api/orders')
+			.set('Cookie', signIn('1'))
+			.send({ ticketId: ticket.id })
+			.expect(201);
+
+		expect(natsWrapper.client.publish).toHaveBeenCalled();
+	});
 });

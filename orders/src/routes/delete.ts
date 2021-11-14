@@ -8,6 +8,8 @@ import {
 } from '@invmtickets/common';
 import { param } from 'express-validator';
 import { Order } from '../models/order';
+import { OrderCancelledPublisher } from '../events/publishers/OrderCancelledPublisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -34,6 +36,12 @@ router.delete(
 		order.status = OrderStatus.Cancelled;
 		await order.save();
 
+		await new OrderCancelledPublisher(natsWrapper.client).publish({
+			id: order.id,
+			ticket: {
+				id: order.ticket.id,
+			},
+		});
 		res.status(204).send();
 	}
 );

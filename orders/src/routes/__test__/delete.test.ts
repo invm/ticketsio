@@ -3,6 +3,7 @@ import { app } from '../../app';
 import mongoose from 'mongoose';
 import { Ticket } from '../../models/ticket';
 import { Order, OrderStatus } from '../../models/order';
+import { natsWrapper } from '../../nats-wrapper';
 
 describe('delete order route', () => {
 	it('has a route handler on /api/orders delete request', async () => {
@@ -33,7 +34,7 @@ describe('delete order route', () => {
 		const id = new mongoose.Types.ObjectId().toHexString();
 
 		let res = await request(app)
-			.delete(`/api/orders/${id}`)
+			.delete(`/api/tickets/${id}`)
 			.set('Cookie', cookie)
 			.send();
 
@@ -67,5 +68,19 @@ describe('delete order route', () => {
 		expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 	});
 
-	it.todo('publishes an event');
+	it('publishes an event', async () => {
+		let ticket = Ticket.build({
+			title: 'concert',
+			price: 20,
+		});
+		await ticket.save();
+
+		await request(app)
+			.post('/api/orders')
+			.set('Cookie', signIn('1'))
+			.send({ ticketId: ticket.id })
+			.expect(201);
+
+		expect(natsWrapper.client.publish).toHaveBeenCalled();
+	});
 });
