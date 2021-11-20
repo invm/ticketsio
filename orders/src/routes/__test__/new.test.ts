@@ -40,6 +40,7 @@ describe('create new order route', () => {
 
 	it('return an error if the ticket is already reserved', async () => {
 		let ticket = Ticket.build({
+			id: new mongoose.Types.ObjectId().toHexString(),
 			title: 'concert',
 			price: 20,
 		});
@@ -63,6 +64,7 @@ describe('create new order route', () => {
 
 	it('reserves a ticket', async () => {
 		let ticket = Ticket.build({
+			id: new mongoose.Types.ObjectId().toHexString(),
 			title: 'concert',
 			price: 20,
 		});
@@ -77,6 +79,7 @@ describe('create new order route', () => {
 
 	it('publishes an event', async () => {
 		let ticket = Ticket.build({
+			id: new mongoose.Types.ObjectId().toHexString(),
 			title: 'concert',
 			price: 20,
 		});

@@ -15,6 +15,7 @@ describe('retrieve order route', () => {
 
 	it('returns an error if a user tries to fetch other users order', async () => {
 		let ticket = Ticket.build({
+			id: new mongoose.Types.ObjectId().toHexString(),
 			title: 'concert',
 			price: 20,
 		});
@@ -37,6 +38,7 @@ describe('retrieve order route', () => {
 
 	it('returns an order if ticket was found', async () => {
 		let ticket = Ticket.build({
+			id: new mongoose.Types.ObjectId().toHexString(),
 			title: 'concert',
 			price: 20,
 		});

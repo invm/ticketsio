@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { app } from './app';
 import { DatabaseConnectionError } from '@invmtickets/common';
 import { natsWrapper } from './nats-wrapper';
+import { TicketCreatedListener } from './events/listeners/TicketCreatedListener';
+import { TicketUpdatedListener } from './events/listeners/TicketUpdatedListener';
 
 const start = async () => {
 	if (
@@ -27,6 +29,10 @@ const start = async () => {
 
 		process.on('SIGINT', () => natsWrapper.client.close());
 		process.on('SIGTERM', () => natsWrapper.client.close());
+
+		new TicketCreatedListener(natsWrapper.client).listen();
+		new TicketUpdatedListener(natsWrapper.client).listen();
+
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('Connected to db');
 	} catch (error) {
