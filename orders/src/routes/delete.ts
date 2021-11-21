@@ -30,14 +30,17 @@ router.delete(
 		let order = await Order.findOne({ _id: id });
 
 		if (!order) throw new NotFoundError();
+
 		if (order.userId !== req.currentUser!.id) {
 			throw new NotAuthorizedError();
 		}
 		order.status = OrderStatus.Cancelled;
+
 		await order.save();
 
 		await new OrderCancelledPublisher(natsWrapper.client).publish({
 			id: order.id,
+			version: order.version,
 			ticket: {
 				id: order.ticket.id,
 			},

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@invmtickets/common';
 import { ITicketDocument } from './ticket';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // required to create a new order
 interface IOrder {
@@ -23,6 +24,7 @@ interface IOrderDocument extends mongoose.Document {
 	ticket: ITicketDocument;
 	createdAt: Date;
 	updatedAt: Date;
+	version: number;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -57,6 +59,9 @@ const orderSchema = new mongoose.Schema(
 		},
 	}
 );
+
+orderSchema.set('versionKey', 'version');
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (order: IOrder) => {
 	return new Order(order);
