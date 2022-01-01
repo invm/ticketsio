@@ -1,4 +1,4 @@
-import { TicketUpdatedEvent, TicketCreatedEvent } from '@invmtickets/common';
+import { TicketUpdatedEvent } from '@invmtickets/common';
 import { natsWrapper } from '../../../nats-wrapper';
 import { TicketUpdatedListener } from '../TicketUpdatedListener';
 import mongoose from 'mongoose';

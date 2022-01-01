@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { app } from './app';
 import { DatabaseConnectionError } from '@invmtickets/common';
 import { natsWrapper } from './nats-wrapper';
+import { OrderCreatedListener } from './events/listeners/OrderCreatedListener';
+import { OrderCancelledListener } from './events/listeners/OrderCancelledListener';
 
 const start = async () => {
 	if (
@@ -24,6 +26,10 @@ const start = async () => {
 			console.log('Nats connection closed');
 			process.exit();
 		});
+
+
+    new OrderCreatedListener(natsWrapper.client).listen()
+    new OrderCancelledListener(natsWrapper.client).listen()
 
 		process.on('SIGINT', () => natsWrapper.client.close());
 		process.on('SIGTERM', () => natsWrapper.client.close());
