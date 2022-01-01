@@ -107,7 +107,6 @@ describe('update new ticket route', () => {
 	});
 
 	it('publishes an event', async () => {
-
 		let tickets = await Ticket.find({});
 
 		expect(tickets.length).toEqual(0);
@@ -132,5 +131,29 @@ describe('update new ticket route', () => {
 		tickets = await Ticket.find({});
 
 		expect(natsWrapper.client.publish).toHaveBeenCalled();
+	});
+
+	it('rejects if the ticket is reserved', async () => {
+		let cookie = signIn('1');
+
+		const title = 'title';
+		const price = 20;
+		let ticketRes = await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ price, title })
+			.expect(201);
+
+		let ticket = await Ticket.findById(ticketRes.body.data.id);
+
+		ticket!.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+
+		await ticket!.save();
+
+		await request(app)
+			.patch(`/api/tickets/${ticketRes.body.data.id}`)
+			.set('Cookie', cookie)
+			.send({ price: 10, title: 'new' })
+			.expect(400);
 	});
 });

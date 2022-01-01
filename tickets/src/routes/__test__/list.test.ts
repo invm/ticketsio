@@ -6,7 +6,7 @@ export const createTicket = (cookie: string[]) =>
 	request(app)
 		.post('/api/tickets')
 		.set('Cookie', cookie)
-		.send({ price: Math.floor(Math.random() * 100), title: randomBytes(8).toString('hex') })
+		.send({ price: Math.floor(Math.random() * 100) + 1, title: randomBytes(8).toString('hex') })
 		.expect(201);
 
 describe('retrieve ticket list route', () => {

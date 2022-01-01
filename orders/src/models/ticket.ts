@@ -1,37 +1,35 @@
 import mongoose from 'mongoose';
+import { Order, OrderStatus } from './order';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // required to create a new ticket
 interface ITicket {
+	id: string;
 	title: string;
 	price: number;
-	userId: string;
-	orderId?: string;
 }
 
 // ticket model properties
 interface ITicketModel extends mongoose.Model<ITicketDocument> {
 	build(ticket: ITicket): ITicketDocument;
+	findByEvent(event: {
+		id: string;
+		version: number;
+	}): Promise<ITicketDocument | null>;
 }
 
 // ticket document properties
-interface ITicketDocument extends mongoose.Document {
-	userId: string;
-	orderId?: string;
+export interface ITicketDocument extends mongoose.Document {
 	title: string;
 	price: number;
 	createdAt: Date;
 	updatedAt: Date;
+	isReserved(): Promise<boolean>;
 	version: number;
 }
 
 const ticketSchema = new mongoose.Schema(
 	{
-		userId: {
-			type: String,
-			required: true,
-		},
-		orderId: String,
 		title: {
 			type: String,
 			required: true,
@@ -56,8 +54,33 @@ const ticketSchema = new mongoose.Schema(
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.build = (ticket: ITicket) => {
-	return new Ticket(ticket);
+ticketSchema.statics.findByEvent = ({ id, version }: { id: string; version: number }) => {
+	return Ticket.findOne({
+		_id: id,
+		version: version - 1,
+	});
+};
+
+ticketSchema.statics.build = ({ id, ...rest }: ITicket) => {
+	return new Ticket({
+		_id: id,
+		...rest,
+	});
+};
+
+ticketSchema.methods.isReserved = async function () {
+	const existingOrder = await Order.findOne({
+		ticket: this,
+		status: {
+			$in: [
+				OrderStatus.Created,
+				OrderStatus.AwaitingPayment,
+				OrderStatus.Complete,
+			],
+		},
+	});
+
+	return !!existingOrder;
 };
 
 const Ticket = mongoose.model<ITicketDocument, ITicketModel>(
