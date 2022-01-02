@@ -16,8 +16,6 @@ const start = async () => {
 			process.env.NATS_URL
 		);
 
-    new OrderCreatedListener(natsWrapper.client).listen()
-
 		natsWrapper.client.on('close', () => {
 			console.log('Nats connection closed');
 			process.exit();
@@ -25,6 +23,8 @@ const start = async () => {
 
 		process.on('SIGINT', () => natsWrapper.client.close());
 		process.on('SIGTERM', () => natsWrapper.client.close());
+
+    new OrderCreatedListener(natsWrapper.client).listen()
 	} catch (error) {
 		console.log(error);
 	}
