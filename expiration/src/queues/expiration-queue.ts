@@ -10,9 +10,8 @@ const expirationQueue = new Queue<Payload>('order-expiration', {
 	redis: { host: process.env.REDIS_HOST },
 });
 
-expirationQueue.process(async (job: any) => {
+expirationQueue.process(async (job) => {
 	console.log('Job:', job.data.orderId);
-
 
   new ExpirationCompletePublisher(natsWrapper.client).publish({ orderId: job.data.orderId })
 });

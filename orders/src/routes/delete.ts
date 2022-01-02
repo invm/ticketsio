@@ -39,13 +39,13 @@ router.delete(
 		await order.save();
 
 		await new OrderCancelledPublisher(natsWrapper.client).publish({
-			id: order.id,
+			id: order.id.toString(),
 			version: order.version,
 			ticket: {
-				id: order.ticket.id,
+				id: order.ticket.id.toString(),
 			},
 		});
-		res.status(204).send();
+		res.status(200).send();
 	}
 );
 
