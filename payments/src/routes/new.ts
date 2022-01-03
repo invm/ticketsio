@@ -12,8 +12,6 @@ import { Order } from '../models/order';
 import { stripe } from '../stripe';
 const router = express.Router();
 
-jest.mock('../stripe');
-
 router.post(
 	'/',
 	requireAuth,

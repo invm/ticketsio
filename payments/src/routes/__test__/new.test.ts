@@ -5,6 +5,8 @@ import { Order } from '../../models/order';
 import mongoose from 'mongoose';
 import { stripe } from '../../stripe';
 
+jest.mock('../../stripe');
+
 describe('make payment route', () => {
 	it('returns 404 when purchasing an order that does not exist', async () => {
 		let res = await request(app)
