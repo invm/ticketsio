@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
+import { natsWrapper } from '../../nats-wrapper';
 
 describe('create new ticket route', () => {
 	it('has a route handler on /api/tickets post request', async () => {
@@ -16,7 +17,10 @@ describe('create new ticket route', () => {
 	it('returns status other than 401 if the user is signed in', async () => {
 		let cookie = signIn('1');
 
-		let res = await request(app).post('/api/tickets').set('Cookie', cookie).send();
+		let res = await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send();
 
 		expect(res.statusCode).not.toEqual(401);
 	});
@@ -24,13 +28,21 @@ describe('create new ticket route', () => {
 	it('responds with an error due to invalid title', async () => {
 		let cookie = signIn('1');
 
-		await request(app).post('/api/tickets').set('Cookie', cookie).send({ title: '' }).expect(400);
+		await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ title: '' })
+			.expect(400);
 	});
 
 	it('responds with an error due to invalid price', async () => {
 		let cookie = signIn('1');
 
-		await request(app).post('/api/tickets').set('Cookie', cookie).send({ price: 0 }).expect(400);
+		await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ price: 0 })
+			.expect(400);
 	});
 
 	it('successfully creates a ticket', async () => {
@@ -43,12 +55,31 @@ describe('create new ticket route', () => {
 		const title = 'title';
 		const price = 20;
 
-		await request(app).post('/api/tickets').set('Cookie', cookie).send({ price, title }).expect(201);
-		
+		await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ price, title })
+			.expect(201);
+
 		tickets = await Ticket.find({});
 
 		expect(tickets.length).toEqual(1);
 		expect(tickets[0].price).toEqual(price);
 		expect(tickets[0].title).toEqual(title);
+	});
+
+	it('publishes an event', async () => {
+		let cookie = signIn('1');
+
+		const title = 'title';
+		const price = 20;
+
+		await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ price, title })
+			.expect(201);
+
+		expect(natsWrapper.client.publish).toHaveBeenCalled();
 	});
 });

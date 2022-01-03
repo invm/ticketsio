@@ -3,6 +3,7 @@ import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 import mongoose from 'mongoose';
 import { createTicket } from './list.test';
+import { natsWrapper } from '../../nats-wrapper';
 
 describe('update new ticket route', () => {
 	it('has a route handler on /api/tickets patch request', async () => {
@@ -25,7 +26,10 @@ describe('update new ticket route', () => {
 	});
 
 	it('can only be access if user is signed in', async () => {
-		await request(app).patch('/api/tickets/asd').send({ title: 'title', price: 1 }).expect(401);
+		await request(app)
+			.patch('/api/tickets/asd')
+			.send({ title: 'title', price: 1 })
+			.expect(401);
 	});
 
 	it('returns 401 if the user does not own the ticket', async () => {
@@ -54,14 +58,22 @@ describe('update new ticket route', () => {
 		let cookie = signIn('1');
 		const id = new mongoose.Types.ObjectId().toHexString();
 
-		await request(app).patch(`/api/tickets/${id}`).set('Cookie', cookie).send({ title: '' }).expect(400);
+		await request(app)
+			.patch(`/api/tickets/${id}`)
+			.set('Cookie', cookie)
+			.send({ title: '' })
+			.expect(400);
 	});
 
 	it('responds with an error due to invalid price', async () => {
 		let cookie = signIn('1');
 		const id = new mongoose.Types.ObjectId().toHexString();
 
-		await request(app).patch(`/api/tickets/${id}`).set('Cookie', cookie).send({ price: 0 }).expect(400);
+		await request(app)
+			.patch(`/api/tickets/${id}`)
+			.set('Cookie', cookie)
+			.send({ price: 0 })
+			.expect(400);
 	});
 
 	it('successfully updates a ticket', async () => {
@@ -92,5 +104,56 @@ describe('update new ticket route', () => {
 		expect(tickets.length).toEqual(1);
 		expect(tickets[0].price).toEqual(10);
 		expect(tickets[0].title).toEqual('new');
+	});
+
+	it('publishes an event', async () => {
+		let tickets = await Ticket.find({});
+
+		expect(tickets.length).toEqual(0);
+		let cookie = signIn('1');
+
+		const title = 'title';
+		const price = 20;
+		let ticketRes = await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ price, title })
+			.expect(201);
+
+		expect(ticketRes.statusCode).toEqual(201);
+
+		await request(app)
+			.patch(`/api/tickets/${ticketRes.body.data.id}`)
+			.set('Cookie', cookie)
+			.send({ price: 10, title: 'new' })
+			.expect(200);
+
+		tickets = await Ticket.find({});
+
+		expect(natsWrapper.client.publish).toHaveBeenCalled();
+	});
+
+	it('rejects if the ticket is reserved', async () => {
+		let cookie = signIn('1');
+
+		const title = 'title';
+		const price = 20;
+		let ticketRes = await request(app)
+			.post('/api/tickets')
+			.set('Cookie', cookie)
+			.send({ price, title })
+			.expect(201);
+
+		let ticket = await Ticket.findById(ticketRes.body.data.id);
+
+		ticket!.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+
+		await ticket!.save();
+
+		await request(app)
+			.patch(`/api/tickets/${ticketRes.body.data.id}`)
+			.set('Cookie', cookie)
+			.send({ price: 10, title: 'new' })
+			.expect(400);
 	});
 });
