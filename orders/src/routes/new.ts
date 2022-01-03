@@ -13,7 +13,7 @@ import { OrderCreatedPublisher } from '../events/publishers/OrderCreatedPublishe
 import { natsWrapper } from '../nats-wrapper';
 const router = express.Router();
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes reservation in seconds
 
 router.post(
 	'/',

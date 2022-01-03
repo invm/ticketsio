@@ -63,7 +63,7 @@ describe('delete order route', () => {
 			.delete(`/api/orders/${order.id}`)
 			.set('Cookie', user)
 			.send()
-			.expect(204);
+			.expect(200);
 		const updatedOrder = await Order.findById(order.id);
 
 		expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
