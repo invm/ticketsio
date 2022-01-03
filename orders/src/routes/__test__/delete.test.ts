@@ -2,8 +2,9 @@ import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
 import { Ticket } from '../../models/ticket';
-import { Order, OrderStatus } from '../../models/order';
+import { Order } from '../../models/order';
 import { natsWrapper } from '../../nats-wrapper';
+import { OrderStatus } from '@invmtickets/common';
 
 describe('delete order route', () => {
 	it('has a route handler on /api/orders delete request', async () => {

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@invmtickets/common": "^0.0.11"
+  }
+}
