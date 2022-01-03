@@ -4,6 +4,7 @@ import { DatabaseConnectionError } from '@invmtickets/common';
 import { natsWrapper } from './nats-wrapper';
 import { TicketCreatedListener } from './events/listeners/TicketCreatedListener';
 import { TicketUpdatedListener } from './events/listeners/TicketUpdatedListener';
+import { ExpirationCompleteListener } from './events/listeners/ExpirationCompleteListener';
 
 const start = async () => {
 	if (
@@ -32,6 +33,7 @@ const start = async () => {
 
 		new TicketCreatedListener(natsWrapper.client).listen();
 		new TicketUpdatedListener(natsWrapper.client).listen();
+    new ExpirationCompleteListener(natsWrapper.client).listen()
 
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log('Connected to db');

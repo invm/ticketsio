@@ -40,3 +40,11 @@ build:
         manual:
           - src: '**/*.js'
             dest: .
+    - image: invm/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '**/*.ts'
+            dest: .
