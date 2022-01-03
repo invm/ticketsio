@@ -13,7 +13,7 @@ import { OrderCreatedPublisher } from '../events/publishers/OrderCreatedPublishe
 import { natsWrapper } from '../nats-wrapper';
 const router = express.Router();
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60;
+const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes reservation in seconds
 
 router.post(
 	'/',
@@ -56,13 +56,13 @@ router.post(
 
 		// publish an event that the order was created
 		await new OrderCreatedPublisher(natsWrapper.client).publish({
-			id: order.id.toString(),
+			id: order.id,
 			version: order.version,
 			status: order.status,
 			userId: order.userId,
 			expiresAt: order.expiresAt.toISOString(),
 			ticket: {
-				id: ticket.id.toString(),
+				id: ticket.id,
 				price: ticket.price,
 			},
 		});
