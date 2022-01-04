@@ -5,8 +5,6 @@ import { Order } from '../../models/order';
 import mongoose from 'mongoose';
 import { stripe } from '../../stripe';
 
-jest.mock('../../stripe');
-
 describe('make payment route', () => {
 	it('returns 404 when purchasing an order that does not exist', async () => {
 		let res = await request(app)
@@ -75,11 +73,13 @@ describe('make payment route', () => {
 	});
 
 	it('returns 200 when makes a charge', async () => {
+    // makes an actual api call to stripe with the token in the .env file
+		const price = Math.floor(Math.random() * 100000);
 		const order = Order.build({
 			id: new mongoose.Types.ObjectId().toHexString(),
 			userId: '1',
 			version: 0,
-			price: 20,
+			price,
 			status: OrderStatus.Created,
 		});
 
@@ -91,10 +91,12 @@ describe('make payment route', () => {
 			.send({ token: 'tok_visa', orderId: order.id })
 			.expect(201);
 
-		const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0];
+		const stripeCharges = await stripe.charges.list({ limit: 50 });
+		const stripeCharge = stripeCharges.data.find(
+			(v) => v.metadata?.orderId === order.id
+		);
 
-		expect(chargeOptions.source).toEqual('tok_visa');
-		expect(chargeOptions.amount).toEqual(20 * 100);
-		expect(chargeOptions.currency).toEqual('usd');
+		expect(stripeCharge).toBeDefined();
+		expect(stripeCharge!.currency).toEqual('usd');
 	});
 });

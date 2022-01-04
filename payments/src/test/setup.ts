@@ -10,6 +10,8 @@ declare global {
 
 jest.mock('../nats-wrapper');
 
+jest.setTimeout(20000); // for external calls like stripe
+
 beforeAll(async () => {
 	process.env.JWT_KEY = 'whatever';
 	mongo = await MongoMemoryServer.create();

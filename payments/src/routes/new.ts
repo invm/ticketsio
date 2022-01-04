@@ -32,11 +32,13 @@ router.post(
 		if (order.status === OrderStatus.Cancelled)
 			throw new BadRequestError('Can not pay for cancelled order');
 
-    await stripe.charges.create({
-      currency: 'usd',
-      amount: order.price * 100,
-      source: token,
-    });
+		await stripe.charges.create({
+			currency: 'usd',
+			amount: order.price * 100,
+			source: token,
+			description: `Payment for order #${orderId} over at Tickets.io`,
+			metadata: { orderId },
+		});
 
 		res.status(201).send({ success: true });
 	}
