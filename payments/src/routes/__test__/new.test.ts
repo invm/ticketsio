@@ -4,6 +4,7 @@ import { app } from '../../app';
 import { Order } from '../../models/order';
 import mongoose from 'mongoose';
 import { stripe } from '../../stripe';
+import { Payment } from '../../models/payment';
 
 describe('make payment route', () => {
 	it('returns 404 when purchasing an order that does not exist', async () => {
@@ -73,7 +74,7 @@ describe('make payment route', () => {
 	});
 
 	it('returns 200 when makes a charge', async () => {
-    // makes an actual api call to stripe with the token in the .env file
+		// makes an actual api call to stripe with the token in the .env file
 		const price = Math.floor(Math.random() * 100000);
 		const order = Order.build({
 			id: new mongoose.Types.ObjectId().toHexString(),
@@ -85,7 +86,7 @@ describe('make payment route', () => {
 
 		await order.save();
 
-		await request(app)
+		const res = await request(app)
 			.post('/api/payments')
 			.set('Cookie', signIn('1'))
 			.send({ token: 'tok_visa', orderId: order.id })
@@ -98,5 +99,14 @@ describe('make payment route', () => {
 
 		expect(stripeCharge).toBeDefined();
 		expect(stripeCharge!.currency).toEqual('usd');
+
+		const payment = await Payment.findOne({
+			provider: 'stripe',
+			chargeId: stripeCharge!.id,
+			orderId: order.id,
+		});
+
+		expect(payment).not.toBeNull();
+    expect(res.body.id).toEqual(payment!.id);
 	});
 });

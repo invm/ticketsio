@@ -10,6 +10,9 @@ import {
 import { body } from 'express-validator';
 import { Order } from '../models/order';
 import { stripe } from '../stripe';
+import { Payment } from '../models/payment';
+import { PaymentCreatedPublisher } from '../events/publishers/PaymentCreatedPublisher';
+import { natsWrapper } from '../nats-wrapper';
 const router = express.Router();
 
 router.post(
@@ -32,7 +35,7 @@ router.post(
 		if (order.status === OrderStatus.Cancelled)
 			throw new BadRequestError('Can not pay for cancelled order');
 
-		await stripe.charges.create({
+		const charge = await stripe.charges.create({
 			currency: 'usd',
 			amount: order.price * 100,
 			source: token,
@@ -40,7 +43,23 @@ router.post(
 			metadata: { orderId },
 		});
 
-		res.status(201).send({ success: true });
+		const payment = Payment.build({
+			provider: 'stripe',
+			orderId,
+			chargeId: charge.id,
+		});
+
+		await payment.save();
+
+		new PaymentCreatedPublisher(natsWrapper.client).publish({
+			id: payment.id,
+			provider: payment.provider,
+			version: payment.version,
+			orderId: payment.orderId,
+			chargeId: payment.chargeId,
+		});
+
+		res.status(201).send({ id: payment.id });
 	}
 );
 
