@@ -663,63 +663,6 @@
 					},
 					"response": [
 						{
-							"name": "400 Create order",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"ticketId\": \"61d2134b1ac10870ee843ea4\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{API}}/orders/",
-									"host": [
-										"{{API}}"
-									],
-									"path": [
-										"orders",
-										""
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Date",
-									"value": "Sun, 02 Jan 2022 21:05:35 GMT"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "53"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"35-PvjCfQIYLsE356tRsTmCxEM4DIY\""
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Ticket is already reserved\"\n        }\n    ]\n}"
-						},
-						{
 							"name": "201 Create order",
 							"originalRequest": {
 								"method": "POST",
@@ -775,6 +718,63 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"data\": {\n        \"userId\": \"61d210d00e8404d7c0aa7152\",\n        \"ticket\": {\n            \"title\": \"concert\",\n            \"price\": 10,\n            \"createdAt\": \"2022-01-02T21:05:39.949Z\",\n            \"updatedAt\": \"2022-01-02T21:05:39.949Z\",\n            \"version\": 0,\n            \"id\": \"61d213a31ac10870ee843ea8\"\n        },\n        \"status\": \"created\",\n        \"expiresAt\": \"2022-01-02T21:20:57.463Z\",\n        \"createdAt\": \"2022-01-02T21:05:57.465Z\",\n        \"updatedAt\": \"2022-01-02T21:05:57.465Z\",\n        \"version\": 0,\n        \"id\": \"61d213b58f5b98398ed1cc0b\"\n    }\n}"
+						},
+						{
+							"name": "400 Create order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ticketId\": \"61d2134b1ac10870ee843ea4\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/orders/",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"orders",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sun, 02 Jan 2022 21:05:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-PvjCfQIYLsE356tRsTmCxEM4DIY\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Ticket is already reserved\"\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -1180,6 +1180,206 @@
 							],
 							"cookie": [],
 							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "Make payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"tok_visa\",\n    \"orderId\": \"61d3623333d1f42fa7cce549\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API}}/payments",
+							"host": [
+								"{{API}}"
+							],
+							"path": [
+								"payments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "400 Bad token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"tok_visa\",\n    \"orderId\": \"61d3623333d1f42fa7cce549\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/payments",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"payments"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 03 Jan 2022 20:56:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "47"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2f-ps6rr+V4d61ZiugCkXkpS+rBRKo\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Something went wrong\"\n        }\n    ]\n}"
+						},
+						{
+							"name": "401 Order does not belong to the user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"tok_visa\",\n    \"orderId\": \"61d3623333d1f42fa7cce549\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/payments",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"payments"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 03 Jan 2022 20:58:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-SZMPIJdF/ssbLs1vpzphr0E1ihI\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Not authorized\"\n        }\n    ]\n}"
+						},
+						{
+							"name": "404 Order not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"token\": \"tok_visa\",\n    \"orderId\": \"61d3623333d1f42fa7cce548\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API}}/payments",
+									"host": [
+										"{{API}}"
+									],
+									"path": [
+										"payments"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 03 Jan 2022 20:57:56 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-20/QkAYVV7WS2xhewDlbaaGiki8\""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Not Found\"\n        }\n    ]\n}"
 						}
 					]
 				}
