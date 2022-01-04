@@ -33,3 +33,7 @@ jobs:
       working-directory: ./tickets
     - run: npm test
       working-directory: ./tickets
+    - run: npm ci
+      working-directory: ./orders
+    - run: npm test
+      working-directory: ./orders
