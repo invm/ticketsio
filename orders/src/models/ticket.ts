@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-import { Order, OrderStatus } from './order';
+import { Order } from './order';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { OrderStatus } from '@invmtickets/common';
 
 // required to create a new ticket
 interface ITicket {
