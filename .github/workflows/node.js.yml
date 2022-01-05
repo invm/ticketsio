@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
       env: 
-        credentials: ${{ secrets.STRIPE_KEY }}
+        STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
     - run: npm ci
       working-directory: ./auth
     - run: npm test
@@ -43,3 +43,4 @@ jobs:
       working-directory: ./payments
     - run: npm test
       working-directory: ./payments
+
