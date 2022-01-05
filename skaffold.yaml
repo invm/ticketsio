@@ -40,14 +40,6 @@ build:
         manual:
           - src: '**/*.ts'
             dest: .
-    - image: invm/ticketsio-client
-      context: client
-      docker:
-        dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: '**/*.js'
-            dest: .
     - image: invm/payments
       context: payments
       docker:
