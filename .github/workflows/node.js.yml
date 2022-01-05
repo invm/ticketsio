@@ -28,20 +28,12 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
+    - run: npm i && npm test:ci
       working-directory: ./auth
-    - run: npm test
-      working-directory: ./auth
-    - run: npm ci
+    - run: npm i && npm test:ci
       working-directory: ./tickets
-    - run: npm test
-      working-directory: ./tickets
-    - run: npm ci
+    - run: npm i && npm test:ci
       working-directory: ./orders
-    - run: npm test
-      working-directory: ./orders
-    - run: npm ci
-      working-directory: ./payments
-    - run: npm test
+    - run: npm i && npm test:ci
       working-directory: ./payments
 
